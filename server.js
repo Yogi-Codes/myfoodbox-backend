@@ -4,7 +4,7 @@ const cors = require('cors');
 const db = require("./models/index.model");
 
 var corsOptions = {
-    origin: "http://localhost:8080"
+    origin: "*"
 };
 
 app.use(cors(corsOptions));
