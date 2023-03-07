@@ -14,6 +14,12 @@ module.exports = (sequelize, Sequelize) => {
         date: {
             type: DataTypes.DATE
         },
+        restaurantName: {
+            type: DataTypes.STRING
+        },
+        empEmail: {
+            type: DataTypes.STRING
+        },
         employee: {
             type: DataTypes.UUID
         },

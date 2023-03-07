@@ -11,7 +11,8 @@ module.exports = (app) => {
     const middleware = require('../middlewares/appearence.middleware');
   
     app.post('/appearence', [
-        middleware.checkValidData
+      middleware.checkValidData,
+      middleware.checkIfRepeating
     ], controller.markAppearence);
     app.get('/appearence/:id', controller.getAllAppearenceByUser);
 };
