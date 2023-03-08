@@ -21,7 +21,8 @@ require('./routes/auth.routes')(app);
 require('./routes/restaurant.routes')(app);
 require('./routes/appearence.routes')(app);
 require('./routes/users.routes')(app);
+require('./routes/otp.routes')(app);
 
-app.listen(8080, () => {
+app.listen(8081, () => {
     console.log("Server is Running!");
 });

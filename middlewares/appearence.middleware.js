@@ -8,7 +8,7 @@ exports.checkValidData = async (req, res, next) => {
         where: {
             id: req.body.employee
         }
-    }).then;
+    });
     const restaurant = await Restaurant.findOne({
         where: {
             id: req.body.restaurant

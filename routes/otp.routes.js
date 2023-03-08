@@ -7,6 +7,6 @@ module.exports = (app) => {
         next();
     });
     const controller = require('../controllers/otp.controller');
-    app.get('/sendotp', controller.sendotp);
-    app.get('/verifyotp/:id', controller.verifyotp);
+    app.post('/sendotp', controller.sendotp);
+    app.post('/verifyotp', controller.verifyotp);
 }

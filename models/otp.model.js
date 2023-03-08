@@ -12,11 +12,11 @@ module.exports = (sequelize, Sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user: {
+    userId: {
         type: DataTypes.UUID
     },
     expireAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.TIME,
         allowNull: false,
       },
   });

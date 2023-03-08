@@ -8,7 +8,7 @@ exports.markAppearence = async (req, res) => {
         restaurant: req.body.restaurant,
         date: req.body.date,
         time: req.body.time,
-        empName: req.body.empName,
+        empEmail: req.body.empEmail,
         restaurantName: req.body.restaurantName
     }).then((appearence) => {
         if (!appearence) {

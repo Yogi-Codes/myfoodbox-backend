@@ -26,6 +26,7 @@ db.sequelize = sequelize;
 db.user = require('./user.model')(sequelize, Sequelize);
 db.restaurant = require('./restaurant.model')(sequelize, Sequelize);
 db.appearence = require('./appearence.model')(sequelize, Sequelize);
+db.otp = require('./otp.model')(sequelize, Sequelize);
 
 // add models
 
