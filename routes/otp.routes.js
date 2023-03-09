@@ -7,6 +7,9 @@ module.exports = (app) => {
         next();
     });
     const controller = require('../controllers/otp.controller');
-    app.post('/sendotp', controller.sendotp);
+    const middleware = require('../middlewares/otp.middleware');
+    app.post('/sendotp', [
+        middleware.alreadySent
+    ], controller.sendotp);
     app.post('/verifyotp', controller.verifyotp);
 }

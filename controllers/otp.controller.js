@@ -1,26 +1,49 @@
 const db = require('../models/index.model');
 const Otp = db.otp;
+const User = db.user;
 
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
-
+const {sendMail} = require('../services/email.services');
 
 exports.sendotp = async (req, res) => {
     const userId = req.body.userId;
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    const time = new Date();
-    const expireTime = `${time.getHours()}:${time.getMinutes()+1}`;
+    var time = new Date();
+    time = new Date(time.getTime() + 60*1000);
+    const expireTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+    await User.findOne({
+        where: {
+            id: userId
+        }
+    }).then(user => {
+        if (!user) {
+            return res.status(400).send({
+                result: "Invalid User ID"
+            });
+        }
+        req.body.email = user.email;
+    }).catch(err => {
+        return res.status(500).send({
+            result: err
+        });
+    });
     await Otp.create({
         userId: userId,
         otp: otp,
         expireAt: expireTime 
-    }).then((otp) => {
+    }).then(async (otp) => {
         if(!otp){
             return res.status(500).send({
                 "result": "Something went wrong"
             });
         }
         var token = bcrypt.hashSync(otp.id, 8);
+        // await sendMail(
+        //     req.body.email,
+        //     "Your OTP for Fresh-Food " + otp.otp,
+        //     "Fresh-Food"
+        // );
         return res.status(200).send({
             token: token
         });
@@ -39,8 +62,10 @@ exports.verifyotp = async (req, res) => {
             expireAt: {
                 [Op.gte]: `${date.getHours()}:${date.getMinutes()}`
             }
-        }
-    }).then((otp) => {
+        },
+        limit: 1,
+        order: [['createdAt', 'DESC']]
+    }).then(async (otp) => {
         if (otp.length == 0) {
             return res.status(400).send({
                 result: "OTP expired or something went wrong"
@@ -60,6 +85,11 @@ exports.verifyotp = async (req, res) => {
                 result: "Otp didn't match!"
             });
         }
+        await Otp.destroy({
+            where: {
+                id: otp.id
+            }
+        });
         return res.status(200).send({
             id: otp.id
         });
